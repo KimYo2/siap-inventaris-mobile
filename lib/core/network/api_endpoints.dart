@@ -9,6 +9,7 @@ class ApiEndpoints {
   static const histori = '/histori';
   static const returnBarang = '/return';
   static const notifikasi = '/notifikasi';
+  static const waitlistList = '/waitlist';
   static const profile = '/profile';
 
   static String barangDetail(String nomorBmn) => '/barang/$nomorBmn';
