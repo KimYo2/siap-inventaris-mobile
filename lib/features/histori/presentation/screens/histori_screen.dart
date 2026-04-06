@@ -98,6 +98,7 @@ class _HistoriScreenState extends ConsumerState<HistoriScreen> {
   ) async {
     int selectedHari = 7;
     final alasanCtrl = TextEditingController();
+    final messenger = ScaffoldMessenger.of(context);
 
     final confirmed = await showDialog<bool>(
       context: context,
@@ -148,29 +149,28 @@ class _HistoriScreenState extends ConsumerState<HistoriScreen> {
       ),
     );
 
-    if (confirmed == true && mounted) {
-      final messenger = ScaffoldMessenger.of(context);
-      try {
-        await ref
-            .read(historiProvider.notifier)
-            .extendLoan(
-              id: item.id,
-              hari: selectedHari,
-              alasan: alasanCtrl.text.trim().isEmpty
-                  ? null
-                  : alasanCtrl.text.trim(),
-            );
-        messenger.showSnackBar(
-          const SnackBar(
-            content: Text('Perpanjangan berhasil diajukan.'),
-            backgroundColor: Colors.green,
-          ),
-        );
-      } catch (e) {
-        messenger.showSnackBar(
-          SnackBar(content: Text(e.toString()), backgroundColor: Colors.red),
-        );
-      }
+    if (confirmed != true) return;
+    if (!mounted) return;
+    try {
+      await ref
+          .read(historiProvider.notifier)
+          .extendLoan(
+            id: item.id,
+            hari: selectedHari,
+            alasan: alasanCtrl.text.trim().isEmpty
+                ? null
+                : alasanCtrl.text.trim(),
+          );
+      messenger.showSnackBar(
+        const SnackBar(
+          content: Text('Perpanjangan berhasil diajukan.'),
+          backgroundColor: Colors.green,
+        ),
+      );
+    } catch (e) {
+      messenger.showSnackBar(
+        SnackBar(content: Text(e.toString()), backgroundColor: Colors.red),
+      );
     }
   }
 }

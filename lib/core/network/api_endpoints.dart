@@ -12,6 +12,7 @@ class ApiEndpoints {
   static const profile = '/profile';
 
   static String barangDetail(String nomorBmn) => '/barang/$nomorBmn';
+  static const borrowBarang = '/barang/borrow';
   static String barangWaitlist(String nomorBmn) => '/barang/$nomorBmn/waitlist';
   static String historiExtend(int id) => '/histori/$id/extend';
   static String waitlistCancel(int id) => '/waitlist/$id';
