@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
+import '../../../../../../core/widgets/admin_drawer.dart';
 import '../../data/models/opname_session_model.dart';
 import '../providers/admin_opname_provider.dart';
 
@@ -21,6 +22,7 @@ class AdminOpnameScreen extends ConsumerWidget {
           ),
         ],
       ),
+      drawer: const AdminDrawer(),
       floatingActionButton: FloatingActionButton.extended(
         icon: const Icon(Icons.add),
         label: const Text('Sesi Baru'),

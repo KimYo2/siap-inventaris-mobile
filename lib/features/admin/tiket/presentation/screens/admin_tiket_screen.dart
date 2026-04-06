@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../../../../core/widgets/admin_drawer.dart';
 import '../../data/models/tiket_model.dart';
 import '../providers/admin_tiket_provider.dart';
 
@@ -20,6 +21,7 @@ class AdminTiketScreen extends ConsumerWidget {
           ),
         ],
       ),
+      drawer: const AdminDrawer(),
       body: tiketAsync.when(
         data: (state) => Column(
           children: [

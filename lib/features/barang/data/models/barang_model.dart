@@ -51,7 +51,7 @@ class BarangModel {
   factory BarangModel.fromJson(Map<String, dynamic> json) => BarangModel(
     id: json['id'] as int,
     kodeBarang: json['kode_barang'] as String,
-    nup: json['nup'] as String,
+    nup: json['nup'].toString(),
     ketersediaan: json['ketersediaan'] as String,
     brand: json['brand'] as String?,
     tipe: json['tipe'] as String?,

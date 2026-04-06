@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../../../../core/widgets/admin_drawer.dart';
 import '../../data/models/ruangan_model.dart';
 import '../providers/admin_ruangan_provider.dart';
 
@@ -20,6 +21,7 @@ class AdminRuanganScreen extends ConsumerWidget {
           ),
         ],
       ),
+      drawer: const AdminDrawer(),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () => _showDialog(context, ref, null),

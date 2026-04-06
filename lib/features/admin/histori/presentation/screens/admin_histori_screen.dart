@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../../../../core/widgets/admin_drawer.dart';
 import '../../../../histori/data/models/histori_peminjaman_model.dart';
 import '../providers/admin_histori_provider.dart';
 
@@ -21,6 +22,7 @@ class AdminHistoriScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(title: const Text('Histori Peminjaman')),
+      drawer: const AdminDrawer(),
       body: Column(
         children: [
           SizedBox(

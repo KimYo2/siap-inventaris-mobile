@@ -62,7 +62,7 @@ class HistoriSingkat {
   factory HistoriSingkat.fromJson(Map<String, dynamic> json) => HistoriSingkat(
     id: json['id'] as int,
     kodeBarang: json['kode_barang'] as String,
-    nup: json['nup'] as String,
+    nup: json['nup'].toString(),
     status: json['status'] as String,
     brand: json['brand'] as String?,
     tipe: json['tipe'] as String?,

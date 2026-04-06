@@ -8,8 +8,6 @@ class AdminDashboardRemoteDataSource {
 
   Future<AdminDashboardModel> getDashboard() async {
     final response = await _dio.get(ApiEndpoints.adminDashboard);
-    return AdminDashboardModel.fromJson(
-      response.data['data'] as Map<String, dynamic>,
-    );
+    return AdminDashboardModel.fromJson(response.data as Map<String, dynamic>);
   }
 }

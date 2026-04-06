@@ -27,15 +27,19 @@ class TiketModel {
 
   factory TiketModel.fromJson(Map<String, dynamic> json) => TiketModel(
     id: json['id'] as int,
-    nomorBmn: json['nomor_bmn'] as String,
+    nomorBmn: json['nomor_bmn'] as String? ?? '',
     pelapor: json['pelapor'] as String? ?? '',
     jenisKerusakan: json['jenis_kerusakan'] as String? ?? '',
     deskripsi: json['deskripsi'] as String?,
     status: json['status'] as String? ?? 'open',
     priority: json['priority'] as String? ?? 'low',
-    resolusi: json['resolusi'] as String?,
-    assignedTo: json['assigned_to'] as String?,
-    tanggalLapor: json['tanggal_lapor'] as String? ?? '',
+    resolusi: (json['resolusi'] as String?),
+    assignedTo: json['assignee'] != null
+        ? (json['assignee'] as Map<String, dynamic>)['name'] as String?
+        : null,
+    tanggalLapor: json['tanggal_lapor'] != null
+        ? json['tanggal_lapor'].toString()
+        : '',
   );
 
   Color get priorityColor {

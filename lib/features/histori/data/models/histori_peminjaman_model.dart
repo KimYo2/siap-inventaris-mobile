@@ -48,7 +48,7 @@ class HistoriPeminjamanModel {
       HistoriPeminjamanModel(
         id: json['id'] as int,
         kodeBarang: json['kode_barang'] as String,
-        nup: json['nup'] as String,
+        nup: json['nup'].toString(),
         nipPeminjam: json['nip_peminjam'] as String,
         namaPeminjam: json['nama_peminjam'] as String,
         kondisiAwal: json['kondisi_awal'] as String,

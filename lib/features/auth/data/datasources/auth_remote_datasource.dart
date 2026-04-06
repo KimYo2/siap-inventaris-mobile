@@ -29,7 +29,7 @@ class AuthRemoteDataSource {
     }
   }
 
-  Future<void> logout(Dio dio) async {
+  Future<void> logout() async {
     try {
       await _dio.post(ApiEndpoints.logout);
     } catch (_) {

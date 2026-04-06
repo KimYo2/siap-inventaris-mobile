@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../../../../core/widgets/admin_drawer.dart';
 import '../../../../barang/data/models/barang_model.dart';
 import '../providers/admin_barang_provider.dart';
 
@@ -56,6 +57,7 @@ class _AdminBarangScreenState extends ConsumerState<AdminBarangScreen> {
           ),
         ],
       ),
+      drawer: const AdminDrawer(),
       body: barangAsync.when(
         data: (state) => Column(
           children: [

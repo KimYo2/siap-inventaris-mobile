@@ -67,7 +67,7 @@ class AuthNotifier extends AsyncNotifier<AuthState> {
   Future<void> logout() async {
     final dioClient = ref.read(dioClientProvider);
     final dataSource = AuthRemoteDataSource(dioClient.dio);
-    await dataSource.logout(dioClient.dio);
+    await dataSource.logout();
 
     await ref.read(secureStorageProvider).clear();
     state = const AsyncValue.data(AuthState());

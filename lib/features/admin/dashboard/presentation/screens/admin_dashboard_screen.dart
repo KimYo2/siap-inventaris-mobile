@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
+import '../../../../../../core/widgets/admin_drawer.dart';
 import '../../../../auth/presentation/providers/auth_provider.dart';
 import '../../data/models/admin_dashboard_model.dart';
 import '../providers/admin_dashboard_provider.dart';
@@ -10,7 +10,6 @@ class AdminDashboardScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final user = ref.watch(authProvider).valueOrNull?.user;
     final dashAsync = ref.watch(adminDashboardProvider);
 
     return Scaffold(
@@ -29,7 +28,7 @@ class AdminDashboardScreen extends ConsumerWidget {
           ),
         ],
       ),
-      drawer: _AdminDrawer(user: user),
+      drawer: const AdminDrawer(),
       body: dashAsync.when(
         data: (data) => RefreshIndicator(
           onRefresh: () => ref.read(adminDashboardProvider.notifier).refresh(),
@@ -73,91 +72,6 @@ class AdminDashboardScreen extends ConsumerWidget {
             ),
           ),
         ),
-      ),
-    );
-  }
-}
-
-// ---------------------------------------------------------------------------
-// Drawer
-// ---------------------------------------------------------------------------
-class _AdminDrawer extends StatelessWidget {
-  final dynamic user;
-  const _AdminDrawer({this.user});
-
-  @override
-  Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-    return Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children: [
-          DrawerHeader(
-            decoration: BoxDecoration(color: colorScheme.primary),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CircleAvatar(
-                  backgroundColor: colorScheme.onPrimary,
-                  child: Icon(Icons.person, color: colorScheme.primary),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  user?.name ?? '-',
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Text(
-                  user?.role ?? '-',
-                  style: const TextStyle(color: Colors.white70),
-                ),
-              ],
-            ),
-          ),
-          ListTile(
-            leading: const Icon(Icons.dashboard_outlined),
-            title: const Text('Dashboard'),
-            onTap: () => context.go('/admin/dashboard'),
-          ),
-          ListTile(
-            leading: const Icon(Icons.history),
-            title: const Text('Histori Peminjaman'),
-            onTap: () => context.go('/admin/histori'),
-          ),
-          ListTile(
-            leading: const Icon(Icons.qr_code_scanner),
-            title: const Text('Stock Opname'),
-            onTap: () => context.go('/admin/opname'),
-          ),
-          ListTile(
-            leading: const Icon(Icons.inventory_2_outlined),
-            title: const Text('Barang'),
-            onTap: () => context.go('/admin/barang'),
-          ),
-          ListTile(
-            leading: const Icon(Icons.build_outlined),
-            title: const Text('Tiket Kerusakan'),
-            onTap: () => context.go('/admin/tiket'),
-          ),
-          ListTile(
-            leading: const Icon(Icons.people_outlined),
-            title: const Text('Users'),
-            onTap: () => context.go('/admin/users'),
-          ),
-          const Divider(),
-          ListTile(
-            leading: const Icon(Icons.category_outlined),
-            title: const Text('Kategori'),
-            onTap: () => context.go('/admin/kategori'),
-          ),
-          ListTile(
-            leading: const Icon(Icons.room_outlined),
-            title: const Text('Ruangan'),
-            onTap: () => context.go('/admin/ruangan'),
-          ),
-        ],
       ),
     );
   }
