@@ -30,11 +30,11 @@ class NotifikasiModel {
         judul: json['judul'] as String,
         pesan: json['pesan'] as String,
         type: json['type'] as String? ?? 'info',
-        isRead: json['is_read'] as bool? ?? false,
+        isRead: json['is_read'] == true || json['is_read'] == 1,
         relatedModel: json['related_model'] as String?,
         relatedId: json['related_id'] as int?,
         createdAt: json['created_at'] != null
-            ? DateTime.parse(json['created_at'] as String)
+            ? DateTime.parse(json['created_at'].toString())
             : DateTime.now(),
       );
 

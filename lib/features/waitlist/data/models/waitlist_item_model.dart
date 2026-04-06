@@ -27,7 +27,7 @@ class WaitlistItemModel {
       WaitlistItemModel(
         id: json['id'] as int,
         kodeBarang: json['kode_barang'] as String,
-        nup: json['nup'] as String,
+        nup: json['nup'].toString(),
         nipPeminjam: json['nip_peminjam'] as String,
         status: json['status'] as String? ?? 'aktif',
         namaBarang: json['nama_barang'] as String?,
@@ -35,7 +35,7 @@ class WaitlistItemModel {
         tipe: json['tipe'] as String?,
         position: json['position'] as int?,
         requestedAt: json['requested_at'] != null
-            ? DateTime.parse(json['requested_at'] as String)
+            ? DateTime.parse(json['requested_at'].toString())
             : DateTime.now(),
       );
 

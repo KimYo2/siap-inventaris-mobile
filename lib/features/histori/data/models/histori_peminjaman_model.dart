@@ -4,7 +4,7 @@ class HistoriPeminjamanModel {
   final String nup;
   final String nipPeminjam;
   final String namaPeminjam;
-  final String kondisiAwal;
+  final String? kondisiAwal;
   final String? waktuPengajuan;
   final String? waktuPinjam;
   final String? waktuKembali;
@@ -27,8 +27,8 @@ class HistoriPeminjamanModel {
     required this.nup,
     required this.nipPeminjam,
     required this.namaPeminjam,
-    required this.kondisiAwal,
     required this.status,
+    this.kondisiAwal,
     this.waktuPengajuan,
     this.waktuPinjam,
     this.waktuKembali,
@@ -51,14 +51,14 @@ class HistoriPeminjamanModel {
         nup: json['nup'].toString(),
         nipPeminjam: json['nip_peminjam'] as String,
         namaPeminjam: json['nama_peminjam'] as String,
-        kondisiAwal: json['kondisi_awal'] as String,
+        kondisiAwal: json['kondisi_awal'] as String?,
         status: json['status'] as String,
-        waktuPengajuan: json['waktu_pengajuan'] as String?,
-        waktuPinjam: json['waktu_pinjam'] as String?,
-        waktuKembali: json['waktu_kembali'] as String?,
+        waktuPengajuan: json['waktu_pengajuan']?.toString(),
+        waktuPinjam: json['waktu_pinjam']?.toString(),
+        waktuKembali: json['waktu_kembali']?.toString(),
         kondisiKembali: json['kondisi_kembali'] as String?,
         catatanKondisi: json['catatan_kondisi'] as String?,
-        tanggalJatuhTempo: json['tanggal_jatuh_tempo'] as String?,
+        tanggalJatuhTempo: json['tanggal_jatuh_tempo']?.toString(),
         perpanjanganStatus: json['perpanjangan_status'] as String?,
         perpanjanganHari: json['perpanjangan_hari'] as int?,
         perpanjanganAlasan: json['perpanjangan_alasan'] as String?,
