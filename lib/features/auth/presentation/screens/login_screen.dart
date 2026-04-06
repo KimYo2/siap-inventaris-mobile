@@ -46,95 +46,155 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     });
 
     return Scaffold(
-      body: SafeArea(
-        child: Center(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
-            child: Form(
-              key: _formKey,
+      body: SingleChildScrollView(
+        physics: const ClampingScrollPhysics(),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            // ── Hero gradient ──────────────────────────────────────────────
+            Container(
+              width: double.infinity,
+              padding: EdgeInsets.fromLTRB(
+                24,
+                MediaQuery.of(context).padding.top + 40,
+                24,
+                52,
+              ),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    Theme.of(context).colorScheme.primary,
+                    Theme.of(context).colorScheme.tertiary,
+                  ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+                borderRadius: const BorderRadius.only(
+                  bottomLeft: Radius.circular(36),
+                  bottomRight: Radius.circular(36),
+                ),
+              ),
               child: Column(
                 children: [
-                  Icon(
-                    Icons.inventory_2_rounded,
-                    size: 72,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                  const SizedBox(height: 12),
-                  Text(
-                    'SIAP Inventaris',
-                    style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
+                  Container(
+                    padding: const EdgeInsets.all(18),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withValues(alpha: 0.2),
+                      borderRadius: BorderRadius.circular(22),
                     ),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    'Sistem Inventaris Aset',
-                    style: Theme.of(
-                      context,
-                    ).textTheme.bodyMedium?.copyWith(color: Colors.grey),
-                  ),
-                  const SizedBox(height: 40),
-
-                  // NIP Field
-                  TextFormField(
-                    controller: _nipCtrl,
-                    keyboardType: TextInputType.number,
-                    decoration: const InputDecoration(
-                      labelText: 'NIP',
-                      prefixIcon: Icon(Icons.badge_outlined),
-                      border: OutlineInputBorder(),
+                    child: const Icon(
+                      Icons.inventory_2_rounded,
+                      size: 52,
+                      color: Colors.white,
                     ),
-                    validator: (v) => (v == null || v.isEmpty)
-                        ? 'NIP tidak boleh kosong'
-                        : null,
                   ),
                   const SizedBox(height: 16),
-
-                  // Password Field
-                  TextFormField(
-                    controller: _passCtrl,
-                    obscureText: _obscure,
-                    decoration: InputDecoration(
-                      labelText: 'Password',
-                      prefixIcon: const Icon(Icons.lock_outlined),
-                      border: const OutlineInputBorder(),
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                          _obscure
-                              ? Icons.visibility_off_outlined
-                              : Icons.visibility_outlined,
-                        ),
-                        onPressed: () => setState(() => _obscure = !_obscure),
-                      ),
+                  const Text(
+                    'SIAP Inventaris',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 26,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 0.3,
                     ),
-                    validator: (v) => (v?.length ?? 0) < 6
-                        ? 'Password minimal 6 karakter'
-                        : null,
                   ),
-                  const SizedBox(height: 28),
-
-                  // Login Button
-                  SizedBox(
-                    width: double.infinity,
-                    height: 52,
-                    child: FilledButton(
-                      onPressed: isLoading ? null : _submit,
-                      child: isLoading
-                          ? const SizedBox(
-                              width: 22,
-                              height: 22,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 2.5,
-                                color: Colors.white,
-                              ),
-                            )
-                          : const Text('Masuk', style: TextStyle(fontSize: 16)),
+                  const SizedBox(height: 4),
+                  Text(
+                    'Sistem Inventaris Aset',
+                    style: TextStyle(
+                      color: Colors.white.withValues(alpha: 0.75),
+                      fontSize: 13,
                     ),
                   ),
                 ],
               ),
             ),
-          ),
+
+            // ── Form ──────────────────────────────────────────────────────
+            Padding(
+              padding: const EdgeInsets.fromLTRB(24, 36, 24, 32),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Selamat Datang!',
+                      style: Theme.of(context).textTheme.headlineSmall
+                          ?.copyWith(fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      'Masuk untuk melanjutkan',
+                      style: TextStyle(
+                        color: Colors.grey.shade500,
+                        fontSize: 14,
+                      ),
+                    ),
+                    const SizedBox(height: 28),
+
+                    // NIP Field
+                    TextFormField(
+                      controller: _nipCtrl,
+                      keyboardType: TextInputType.number,
+                      decoration: const InputDecoration(
+                        labelText: 'NIP',
+                        prefixIcon: Icon(Icons.badge_outlined),
+                      ),
+                      validator: (v) => (v == null || v.isEmpty)
+                          ? 'NIP tidak boleh kosong'
+                          : null,
+                    ),
+                    const SizedBox(height: 14),
+
+                    // Password Field
+                    TextFormField(
+                      controller: _passCtrl,
+                      obscureText: _obscure,
+                      decoration: InputDecoration(
+                        labelText: 'Password',
+                        prefixIcon: const Icon(Icons.lock_outlined),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            _obscure
+                                ? Icons.visibility_off_outlined
+                                : Icons.visibility_outlined,
+                          ),
+                          onPressed: () => setState(() => _obscure = !_obscure),
+                        ),
+                      ),
+                      validator: (v) => (v?.length ?? 0) < 6
+                          ? 'Password minimal 6 karakter'
+                          : null,
+                    ),
+                    const SizedBox(height: 28),
+
+                    // Login Button
+                    SizedBox(
+                      width: double.infinity,
+                      height: 52,
+                      child: FilledButton(
+                        onPressed: isLoading ? null : _submit,
+                        child: isLoading
+                            ? const SizedBox(
+                                width: 22,
+                                height: 22,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2.5,
+                                  color: Colors.white,
+                                ),
+                              )
+                            : const Text(
+                                'Masuk',
+                                style: TextStyle(fontSize: 16),
+                              ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

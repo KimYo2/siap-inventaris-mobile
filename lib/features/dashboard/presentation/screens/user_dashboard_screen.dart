@@ -77,37 +77,68 @@ class _GreetingHeader extends StatelessWidget {
   final String name;
   const _GreetingHeader({required this.name});
 
+  String get _initials {
+    final parts = name.trim().split(' ');
+    if (parts.length >= 2) {
+      return '${parts[0][0]}${parts[1][0]}'.toUpperCase();
+    }
+    return name.isNotEmpty ? name[0].toUpperCase() : '?';
+  }
+
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.fromLTRB(20, 24, 20, 20),
+      padding: const EdgeInsets.fromLTRB(20, 22, 20, 32),
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [
-            Theme.of(context).colorScheme.primary,
-            Theme.of(context).colorScheme.primaryContainer,
-          ],
+          colors: [cs.primary, cs.tertiary],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
+        borderRadius: const BorderRadius.only(
+          bottomLeft: Radius.circular(28),
+          bottomRight: Radius.circular(28),
+        ),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Row(
         children: [
-          Text(
-            'Halo, $name!',
-            style: Theme.of(context).textTheme.titleLarge?.copyWith(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
+          CircleAvatar(
+            radius: 26,
+            backgroundColor: Colors.white.withValues(alpha: 0.25),
+            child: Text(
+              _initials,
+              style: const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+              ),
             ),
           ),
-          const SizedBox(height: 4),
-          Text(
-            'Selamat datang di SIAP Inventaris',
-            style: Theme.of(
-              context,
-            ).textTheme.bodyMedium?.copyWith(color: Colors.white70),
+          const SizedBox(width: 14),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Halo, $name!',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 17,
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  'Selamat datang di SIAP Inventaris',
+                  style: TextStyle(
+                    color: Colors.white.withValues(alpha: 0.8),
+                    fontSize: 13,
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),
@@ -171,27 +202,39 @@ class _StatCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Column(
-          children: [
-            Icon(icon, color: color, size: 28),
-            const SizedBox(height: 6),
-            Text(
-              value,
-              style: Theme.of(
-                context,
-              ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 14),
+      decoration: BoxDecoration(
+        color: color.withValues(alpha: 0.1),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: color.withValues(alpha: 0.2)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            padding: const EdgeInsets.all(6),
+            decoration: BoxDecoration(
+              color: color.withValues(alpha: 0.15),
+              borderRadius: BorderRadius.circular(8),
             ),
-            Text(
-              label,
-              style: Theme.of(
-                context,
-              ).textTheme.bodySmall?.copyWith(color: Colors.grey),
+            child: Icon(icon, color: color, size: 18),
+          ),
+          const SizedBox(height: 10),
+          Text(
+            value,
+            style: TextStyle(
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+              color: color,
             ),
-          ],
-        ),
+          ),
+          const SizedBox(height: 2),
+          Text(
+            label,
+            style: TextStyle(fontSize: 11, color: Colors.grey.shade600),
+          ),
+        ],
       ),
     );
   }
@@ -251,30 +294,32 @@ class _ActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
     return Expanded(
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(12),
-        child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 14),
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.surfaceContainerHighest,
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: Column(
-            children: [
-              Icon(
-                icon,
-                color: Theme.of(context).colorScheme.primary,
-                size: 28,
-              ),
-              const SizedBox(height: 6),
-              Text(
-                label,
-                style: Theme.of(context).textTheme.bodySmall,
-                textAlign: TextAlign.center,
-              ),
-            ],
+      child: Material(
+        color: cs.primaryContainer,
+        borderRadius: BorderRadius.circular(14),
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(14),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 6),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(icon, color: cs.onPrimaryContainer, size: 24),
+                const SizedBox(height: 6),
+                Text(
+                  label,
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: cs.onPrimaryContainer,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -291,20 +336,39 @@ class _OverdueBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
       decoration: BoxDecoration(
-        color: Colors.red.shade50,
+        gradient: LinearGradient(
+          colors: [Colors.red.shade50, Colors.orange.shade50],
+          begin: Alignment.centerLeft,
+          end: Alignment.centerRight,
+        ),
         border: Border.all(color: Colors.red.shade200),
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(14),
       ),
       child: Row(
         children: [
-          const Icon(Icons.warning_amber_rounded, color: Colors.red),
-          const SizedBox(width: 8),
+          Container(
+            padding: const EdgeInsets.all(6),
+            decoration: BoxDecoration(
+              color: Colors.red.shade100,
+              shape: BoxShape.circle,
+            ),
+            child: const Icon(
+              Icons.warning_amber_rounded,
+              color: Colors.red,
+              size: 18,
+            ),
+          ),
+          const SizedBox(width: 10),
           Expanded(
             child: Text(
-              'Kamu memiliki $count peminjaman yang sudah melewati jatuh tempo!',
-              style: const TextStyle(color: Colors.red),
+              '$count peminjaman melewati jatuh tempo!',
+              style: const TextStyle(
+                color: Colors.red,
+                fontWeight: FontWeight.w500,
+                fontSize: 13,
+              ),
             ),
           ),
         ],
@@ -370,40 +434,67 @@ class _LoanTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
+    final cs = Theme.of(context).colorScheme;
+    return Container(
       margin: const EdgeInsets.only(bottom: 8),
-      child: ListTile(
-        leading: CircleAvatar(
-          backgroundColor: _statusColor(loan.status).withValues(alpha: 0.15),
-          child: Icon(
-            Icons.inventory_2_outlined,
-            color: _statusColor(loan.status),
-          ),
-        ),
-        title: Text(
-          loan.namaDisplay,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-        ),
-        subtitle: Text(
-          'NUP: ${loan.nup}',
-          style: const TextStyle(fontSize: 12),
-        ),
-        trailing: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-          decoration: BoxDecoration(
-            color: _statusColor(loan.status).withValues(alpha: 0.15),
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: Text(
-            _statusLabel(loan.status),
-            style: TextStyle(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      decoration: BoxDecoration(
+        color: cs.surfaceContainerLow,
+        borderRadius: BorderRadius.circular(14),
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 40,
+            height: 40,
+            decoration: BoxDecoration(
+              color: _statusColor(loan.status).withValues(alpha: 0.12),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Icon(
+              Icons.inventory_2_outlined,
               color: _statusColor(loan.status),
-              fontSize: 12,
-              fontWeight: FontWeight.w600,
+              size: 20,
             ),
           ),
-        ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  loan.namaDisplay,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 14,
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  'NUP: ${loan.nup}',
+                  style: TextStyle(fontSize: 12, color: Colors.grey.shade500),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            decoration: BoxDecoration(
+              color: _statusColor(loan.status).withValues(alpha: 0.12),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Text(
+              _statusLabel(loan.status),
+              style: TextStyle(
+                color: _statusColor(loan.status),
+                fontSize: 11,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
