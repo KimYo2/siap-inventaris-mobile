@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import '../../../../core/widgets/user_scaffold.dart';
 import '../../data/models/histori_peminjaman_model.dart';
 import '../providers/histori_provider.dart';
 
@@ -37,8 +38,8 @@ class _HistoriScreenState extends ConsumerState<HistoriScreen> {
   Widget build(BuildContext context) {
     final historiAsync = ref.watch(historiProvider);
 
-    return Scaffold(
-      appBar: AppBar(title: const Text('Riwayat Peminjaman')),
+    return UserScaffold(
+      title: 'Riwayat Peminjaman',
       body: historiAsync.when(
         data: (state) => RefreshIndicator(
           onRefresh: () => ref.read(historiProvider.notifier).refresh(),

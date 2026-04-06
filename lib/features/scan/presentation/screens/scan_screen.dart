@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
+import '../../../../core/widgets/user_scaffold.dart';
 
 class ScanScreen extends StatefulWidget {
   const ScanScreen({super.key});
@@ -36,16 +37,14 @@ class _ScanScreenState extends State<ScanScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Scan QR Barang'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.flash_on),
-            onPressed: () => controller.toggleTorch(),
-          ),
-        ],
-      ),
+    return UserScaffold(
+      title: 'Scan QR Barang',
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.flash_on),
+          onPressed: () => controller.toggleTorch(),
+        ),
+      ],
       body: Stack(
         children: [
           MobileScanner(controller: controller, onDetect: _onDetect),
