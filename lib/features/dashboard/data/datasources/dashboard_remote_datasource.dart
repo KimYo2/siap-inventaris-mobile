@@ -11,9 +11,7 @@ class DashboardRemoteDataSource {
   Future<DashboardSummary> getDashboard() async {
     try {
       final response = await _dio.get(ApiEndpoints.dashboard);
-      return DashboardSummary.fromJson(
-        response.data['data'] as Map<String, dynamic>,
-      );
+      return DashboardSummary.fromJson(response.data as Map<String, dynamic>);
     } on DioException catch (e) {
       throw ServerException(
         message: e.response?.data['message'] ?? 'Gagal memuat dashboard.',
