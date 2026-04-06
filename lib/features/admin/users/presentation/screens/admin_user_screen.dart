@@ -157,9 +157,12 @@ class AdminUserScreen extends ConsumerWidget {
     if (confirmed != true) return;
     if (nipCtrl.text.trim().isEmpty ||
         namaCtrl.text.trim().isEmpty ||
-        emailCtrl.text.trim().isEmpty)
+        emailCtrl.text.trim().isEmpty) {
       return;
-    if (user == null && passwordCtrl.text.trim().isEmpty) return;
+    }
+    if (user == null && passwordCtrl.text.trim().isEmpty) {
+      return;
+    }
 
     try {
       if (user == null) {

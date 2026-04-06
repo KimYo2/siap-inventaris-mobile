@@ -17,9 +17,9 @@ class AdminBarangDatasource {
       ApiEndpoints.adminBarang,
       queryParameters: {
         'page': page,
-        if (ketersediaan != null) 'ketersediaan': ketersediaan,
-        if (kategoriId != null) 'kategori_id': kategoriId,
-        if (ruanganId != null) 'ruangan_id': ruanganId,
+        'ketersediaan': ketersediaan,
+        'kategori_id': kategoriId,
+        'ruangan_id': ruanganId,
         if (search != null && search.isNotEmpty) 'search': search,
       },
     );

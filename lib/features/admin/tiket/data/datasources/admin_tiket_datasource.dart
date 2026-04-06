@@ -9,7 +9,7 @@ class AdminTiketDatasource {
   Future<List<TiketModel>> getAll({String? status}) async {
     final response = await _dio.get(
       ApiEndpoints.adminTiket,
-      queryParameters: {if (status != null) 'status': status},
+      queryParameters: {'status': status},
     );
     final data = response.data['data'] as List<dynamic>;
     return data
