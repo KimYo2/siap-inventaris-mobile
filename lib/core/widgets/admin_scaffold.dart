@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../features/auth/presentation/providers/auth_provider.dart';
+import 'double_back_to_exit.dart';
 
 class AdminScaffold extends ConsumerWidget {
   final String title;
@@ -36,76 +37,79 @@ class AdminScaffold extends ConsumerWidget {
     final currentLocation = GoRouterState.of(context).matchedLocation;
     final idx = _navItems.indexWhere((e) => e.route == currentLocation);
 
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        leading: IconButton(
-          icon: const Icon(Icons.people_outlined),
-          tooltip: 'Users',
-          onPressed: () => context.go('/admin/users'),
-        ),
-        title: Text(title),
-        bottom: appBarBottom,
-        actions: [
-          ...actions,
-          PopupMenuButton<String>(
-            icon: const Icon(Icons.more_vert),
-            onSelected: (value) {
-              switch (value) {
-                case 'kategori':
-                  context.go('/admin/kategori');
-                case 'ruangan':
-                  context.go('/admin/ruangan');
-                case 'logout':
-                  ref.read(authProvider.notifier).logout();
-              }
-            },
-            itemBuilder: (_) => [
-              const PopupMenuItem(
-                value: 'kategori',
-                child: Row(
-                  children: [
-                    Icon(Icons.category_outlined),
-                    SizedBox(width: 12),
-                    Text('Kategori'),
-                  ],
-                ),
-              ),
-              const PopupMenuItem(
-                value: 'ruangan',
-                child: Row(
-                  children: [
-                    Icon(Icons.room_outlined),
-                    SizedBox(width: 12),
-                    Text('Ruangan'),
-                  ],
-                ),
-              ),
-              const PopupMenuDivider(),
-              const PopupMenuItem(
-                value: 'logout',
-                child: Row(
-                  children: [
-                    Icon(Icons.logout),
-                    SizedBox(width: 12),
-                    Text('Logout'),
-                  ],
-                ),
-              ),
-            ],
+    return DoubleBackToExit(
+      child: Scaffold(
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          leading: IconButton(
+            icon: const Icon(Icons.people_outlined),
+            tooltip: 'Users',
+            onPressed: () => context.go('/admin/users'),
           ),
-        ],
-      ),
-      body: body,
-      floatingActionButton: floatingActionButton,
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: idx < 0 ? 0 : idx,
-        onDestinationSelected: (i) => context.go(_navItems[i].route),
-        destinations: _navItems
-            .map(
-              (e) => NavigationDestination(icon: Icon(e.icon), label: e.label),
-            )
-            .toList(),
+          title: Text(title),
+          bottom: appBarBottom,
+          actions: [
+            ...actions,
+            PopupMenuButton<String>(
+              icon: const Icon(Icons.more_vert),
+              onSelected: (value) {
+                switch (value) {
+                  case 'kategori':
+                    context.go('/admin/kategori');
+                  case 'ruangan':
+                    context.go('/admin/ruangan');
+                  case 'logout':
+                    ref.read(authProvider.notifier).logout();
+                }
+              },
+              itemBuilder: (_) => [
+                const PopupMenuItem(
+                  value: 'kategori',
+                  child: Row(
+                    children: [
+                      Icon(Icons.category_outlined),
+                      SizedBox(width: 12),
+                      Text('Kategori'),
+                    ],
+                  ),
+                ),
+                const PopupMenuItem(
+                  value: 'ruangan',
+                  child: Row(
+                    children: [
+                      Icon(Icons.room_outlined),
+                      SizedBox(width: 12),
+                      Text('Ruangan'),
+                    ],
+                  ),
+                ),
+                const PopupMenuDivider(),
+                const PopupMenuItem(
+                  value: 'logout',
+                  child: Row(
+                    children: [
+                      Icon(Icons.logout),
+                      SizedBox(width: 12),
+                      Text('Logout'),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+        body: body,
+        floatingActionButton: floatingActionButton,
+        bottomNavigationBar: NavigationBar(
+          selectedIndex: idx < 0 ? 0 : idx,
+          onDestinationSelected: (i) => context.go(_navItems[i].route),
+          destinations: _navItems
+              .map(
+                (e) =>
+                    NavigationDestination(icon: Icon(e.icon), label: e.label),
+              )
+              .toList(),
+        ),
       ),
     );
   }

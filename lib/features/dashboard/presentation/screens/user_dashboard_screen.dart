@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../../../../core/widgets/double_back_to_exit.dart';
 import '../../../auth/presentation/providers/auth_provider.dart';
 import '../../data/models/dashboard_summary_model.dart';
 import '../providers/dashboard_provider.dart';
@@ -13,96 +14,100 @@ class UserDashboardScreen extends ConsumerWidget {
     final user = ref.watch(authProvider).valueOrNull?.user;
     final dashAsync = ref.watch(dashboardProvider);
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('SIAP Inventaris'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.notifications_outlined),
-            onPressed: () => context.push('/notifikasi'),
-          ),
-          IconButton(
-            icon: const Icon(Icons.logout),
-            tooltip: 'Logout',
-            onPressed: () => ref.read(authProvider.notifier).logout(),
-          ),
-        ],
-      ),
-      body: RefreshIndicator(
-        onRefresh: () => ref.read(dashboardProvider.notifier).refresh(),
-        child: CustomScrollView(
-          slivers: [
-            SliverToBoxAdapter(child: _GreetingHeader(name: user?.name ?? '-')),
-            dashAsync.when(
-              data: (data) => SliverPadding(
-                padding: const EdgeInsets.all(16),
-                sliver: SliverList(
-                  delegate: SliverChildListDelegate([
-                    _StatCards(summary: data),
-                    const SizedBox(height: 20),
-                    _QuickActions(),
-                    const SizedBox(height: 20),
-                    if (data.overdueLoans > 0) ...[
-                      _OverdueBanner(count: data.overdueLoans),
-                      const SizedBox(height: 16),
-                    ],
-                    _RecentLoansSection(loans: data.recentLoans),
-                  ]),
-                ),
-              ),
-              loading: () => const SliverFillRemaining(
-                child: Center(child: CircularProgressIndicator()),
-              ),
-              error: (e, _) => SliverFillRemaining(
-                child: Center(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Icon(
-                        Icons.error_outline,
-                        size: 48,
-                        color: Colors.red,
-                      ),
-                      const SizedBox(height: 8),
-                      Text(e.toString()),
-                      const SizedBox(height: 12),
-                      FilledButton(
-                        onPressed: () =>
-                            ref.read(dashboardProvider.notifier).refresh(),
-                        child: const Text('Coba Lagi'),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+    return DoubleBackToExit(
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('SIAP Inventaris'),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.notifications_outlined),
+              onPressed: () => context.push('/notifikasi'),
+            ),
+            IconButton(
+              icon: const Icon(Icons.logout),
+              tooltip: 'Logout',
+              onPressed: () => ref.read(authProvider.notifier).logout(),
             ),
           ],
         ),
-      ),
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: 0,
-        destinations: const [
-          NavigationDestination(icon: Icon(Icons.home), label: 'Home'),
-          NavigationDestination(
-            icon: Icon(Icons.qr_code_scanner),
-            label: 'Scan',
+        body: RefreshIndicator(
+          onRefresh: () => ref.read(dashboardProvider.notifier).refresh(),
+          child: CustomScrollView(
+            slivers: [
+              SliverToBoxAdapter(
+                child: _GreetingHeader(name: user?.name ?? '-'),
+              ),
+              dashAsync.when(
+                data: (data) => SliverPadding(
+                  padding: const EdgeInsets.all(16),
+                  sliver: SliverList(
+                    delegate: SliverChildListDelegate([
+                      _StatCards(summary: data),
+                      const SizedBox(height: 20),
+                      _QuickActions(),
+                      const SizedBox(height: 20),
+                      if (data.overdueLoans > 0) ...[
+                        _OverdueBanner(count: data.overdueLoans),
+                        const SizedBox(height: 16),
+                      ],
+                      _RecentLoansSection(loans: data.recentLoans),
+                    ]),
+                  ),
+                ),
+                loading: () => const SliverFillRemaining(
+                  child: Center(child: CircularProgressIndicator()),
+                ),
+                error: (e, _) => SliverFillRemaining(
+                  child: Center(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(
+                          Icons.error_outline,
+                          size: 48,
+                          color: Colors.red,
+                        ),
+                        const SizedBox(height: 8),
+                        Text(e.toString()),
+                        const SizedBox(height: 12),
+                        FilledButton(
+                          onPressed: () =>
+                              ref.read(dashboardProvider.notifier).refresh(),
+                          child: const Text('Coba Lagi'),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
-          NavigationDestination(icon: Icon(Icons.history), label: 'Histori'),
-          NavigationDestination(icon: Icon(Icons.person), label: 'Profil'),
-        ],
-        onDestinationSelected: (i) {
-          switch (i) {
-            case 1:
-              context.go('/scan');
-              break;
-            case 2:
-              context.go('/histori');
-              break;
-            case 3:
-              context.go('/profile');
-              break;
-          }
-        },
+        ),
+        bottomNavigationBar: NavigationBar(
+          selectedIndex: 0,
+          destinations: const [
+            NavigationDestination(icon: Icon(Icons.home), label: 'Home'),
+            NavigationDestination(
+              icon: Icon(Icons.qr_code_scanner),
+              label: 'Scan',
+            ),
+            NavigationDestination(icon: Icon(Icons.history), label: 'Histori'),
+            NavigationDestination(icon: Icon(Icons.person), label: 'Profil'),
+          ],
+          onDestinationSelected: (i) {
+            switch (i) {
+              case 1:
+                context.go('/scan');
+                break;
+              case 2:
+                context.go('/histori');
+                break;
+              case 3:
+                context.go('/profile');
+                break;
+            }
+          },
+        ),
       ),
     );
   }
