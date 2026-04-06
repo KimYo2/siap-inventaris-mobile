@@ -36,7 +36,12 @@ class ApiEndpoints {
   static String adminExtendReject(int id) => '/admin/histori/$id/extend/reject';
   static String adminOpnameScan(int id) => '/admin/opname/$id/scan';
   static String adminOpnameFinish(int id) => '/admin/opname/$id/finish';
+  static String adminBarangItem(int id) => '/admin/barang/$id';
   static String adminBarangStatus(int id) => '/admin/barang/$id/update-status';
   static const adminBarangImport = '/admin/barang/import';
+  static String adminTiketItem(int id) => '/admin/tiket/$id';
   static String adminTiketResolve(int id) => '/admin/tiket/$id/resolve';
+  static String adminKategoriItem(int id) => '/admin/kategori/$id';
+  static String adminRuanganItem(int id) => '/admin/ruangan/$id';
+  static String adminUsersItem(int id) => '/admin/users/$id';
 }
