@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../../../core/widgets/admin_drawer.dart';
+import '../../../../../../core/widgets/admin_scaffold.dart';
 import '../../data/models/user_admin_model.dart';
 import '../providers/admin_users_provider.dart';
 
@@ -11,17 +11,14 @@ class AdminUserScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final usersAsync = ref.watch(adminUsersProvider);
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Manajemen User'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.refresh),
-            onPressed: () => ref.read(adminUsersProvider.notifier).refresh(),
-          ),
-        ],
-      ),
-      drawer: const AdminDrawer(),
+    return AdminScaffold(
+      title: 'Manajemen User',
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.refresh),
+          onPressed: () => ref.read(adminUsersProvider.notifier).refresh(),
+        ),
+      ],
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.person_add_outlined),
         onPressed: () => _showDialog(context, ref, null),

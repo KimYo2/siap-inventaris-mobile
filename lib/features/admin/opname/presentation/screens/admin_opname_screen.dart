@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
-import '../../../../../../core/widgets/admin_drawer.dart';
+import '../../../../../../core/widgets/admin_scaffold.dart';
 import '../../data/models/opname_session_model.dart';
 import '../providers/admin_opname_provider.dart';
 
@@ -12,17 +12,14 @@ class AdminOpnameScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final opnameAsync = ref.watch(adminOpnameProvider);
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Stock Opname'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.refresh),
-            onPressed: () => ref.read(adminOpnameProvider.notifier).refresh(),
-          ),
-        ],
-      ),
-      drawer: const AdminDrawer(),
+    return AdminScaffold(
+      title: 'Stock Opname',
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.refresh),
+          onPressed: () => ref.read(adminOpnameProvider.notifier).refresh(),
+        ),
+      ],
       floatingActionButton: FloatingActionButton.extended(
         icon: const Icon(Icons.add),
         label: const Text('Sesi Baru'),

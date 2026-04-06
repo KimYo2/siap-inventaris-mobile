@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../../../core/widgets/admin_drawer.dart';
+import '../../../../../../core/widgets/admin_scaffold.dart';
 import '../../../../histori/data/models/histori_peminjaman_model.dart';
 import '../providers/admin_histori_provider.dart';
 
@@ -20,9 +20,8 @@ class AdminHistoriScreen extends ConsumerWidget {
     final historiAsync = ref.watch(adminHistoriProvider);
     final currentFilter = historiAsync.valueOrNull?.statusFilter ?? 'menunggu';
 
-    return Scaffold(
-      appBar: AppBar(title: const Text('Histori Peminjaman')),
-      drawer: const AdminDrawer(),
+    return AdminScaffold(
+      title: 'Histori Peminjaman',
       body: Column(
         children: [
           SizedBox(

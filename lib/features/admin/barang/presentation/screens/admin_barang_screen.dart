@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../../../core/widgets/admin_drawer.dart';
+import '../../../../../../core/widgets/admin_scaffold.dart';
 import '../../../../barang/data/models/barang_model.dart';
 import '../providers/admin_barang_provider.dart';
 
@@ -28,36 +28,33 @@ class _AdminBarangScreenState extends ConsumerState<AdminBarangScreen> {
   Widget build(BuildContext context) {
     final barangAsync = ref.watch(adminBarangAdminProvider);
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Manajemen Barang'),
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(48),
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(12, 0, 12, 8),
-            child: TextField(
-              controller: _searchCtrl,
-              onChanged: _onSearch,
-              decoration: const InputDecoration(
-                hintText: 'Cari barang...',
-                prefixIcon: Icon(Icons.search),
-                border: OutlineInputBorder(),
-                isDense: true,
-                fillColor: Colors.white,
-                filled: true,
-              ),
+    return AdminScaffold(
+      title: 'Manajemen Barang',
+      appBarBottom: PreferredSize(
+        preferredSize: const Size.fromHeight(48),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(12, 0, 12, 8),
+          child: TextField(
+            controller: _searchCtrl,
+            onChanged: _onSearch,
+            decoration: const InputDecoration(
+              hintText: 'Cari barang...',
+              prefixIcon: Icon(Icons.search),
+              border: OutlineInputBorder(),
+              isDense: true,
+              fillColor: Colors.white,
+              filled: true,
             ),
           ),
         ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.refresh),
-            onPressed: () =>
-                ref.read(adminBarangAdminProvider.notifier).refresh(),
-          ),
-        ],
       ),
-      drawer: const AdminDrawer(),
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.refresh),
+          onPressed: () =>
+              ref.read(adminBarangAdminProvider.notifier).refresh(),
+        ),
+      ],
       body: barangAsync.when(
         data: (state) => Column(
           children: [

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../../../core/widgets/admin_drawer.dart';
-import '../../../../auth/presentation/providers/auth_provider.dart';
+import '../../../../../../core/widgets/admin_scaffold.dart';
 import '../../data/models/admin_dashboard_model.dart';
 import '../providers/admin_dashboard_provider.dart';
 
@@ -12,23 +11,14 @@ class AdminDashboardScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final dashAsync = ref.watch(adminDashboardProvider);
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Admin Dashboard'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.refresh),
-            onPressed: () =>
-                ref.read(adminDashboardProvider.notifier).refresh(),
-          ),
-          IconButton(
-            icon: const Icon(Icons.logout),
-            tooltip: 'Logout',
-            onPressed: () => ref.read(authProvider.notifier).logout(),
-          ),
-        ],
-      ),
-      drawer: const AdminDrawer(),
+    return AdminScaffold(
+      title: 'Admin Dashboard',
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.refresh),
+          onPressed: () => ref.read(adminDashboardProvider.notifier).refresh(),
+        ),
+      ],
       body: dashAsync.when(
         data: (data) => RefreshIndicator(
           onRefresh: () => ref.read(adminDashboardProvider.notifier).refresh(),

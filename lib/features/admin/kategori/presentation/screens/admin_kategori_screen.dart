@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../../../core/widgets/admin_drawer.dart';
+import '../../../../../../core/widgets/admin_scaffold.dart';
 import '../../data/models/kategori_model.dart';
 import '../providers/admin_kategori_provider.dart';
 
@@ -11,17 +11,14 @@ class AdminKategoriScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final kategoriAsync = ref.watch(adminKategoriProvider);
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Kategori'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.refresh),
-            onPressed: () => ref.read(adminKategoriProvider.notifier).refresh(),
-          ),
-        ],
-      ),
-      drawer: const AdminDrawer(),
+    return AdminScaffold(
+      title: 'Kategori',
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.refresh),
+          onPressed: () => ref.read(adminKategoriProvider.notifier).refresh(),
+        ),
+      ],
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () => _showDialog(context, ref, null),

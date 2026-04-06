@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../../../core/widgets/admin_drawer.dart';
+import '../../../../../../core/widgets/admin_scaffold.dart';
 import '../../data/models/tiket_model.dart';
 import '../providers/admin_tiket_provider.dart';
 
@@ -11,17 +11,14 @@ class AdminTiketScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final tiketAsync = ref.watch(adminTiketProvider);
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Tiket Kerusakan'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.refresh),
-            onPressed: () => ref.read(adminTiketProvider.notifier).refresh(),
-          ),
-        ],
-      ),
-      drawer: const AdminDrawer(),
+    return AdminScaffold(
+      title: 'Tiket Kerusakan',
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.refresh),
+          onPressed: () => ref.read(adminTiketProvider.notifier).refresh(),
+        ),
+      ],
       body: tiketAsync.when(
         data: (state) => Column(
           children: [

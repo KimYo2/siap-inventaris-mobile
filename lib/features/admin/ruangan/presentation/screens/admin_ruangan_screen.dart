@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../../../core/widgets/admin_drawer.dart';
+import '../../../../../../core/widgets/admin_scaffold.dart';
 import '../../data/models/ruangan_model.dart';
 import '../providers/admin_ruangan_provider.dart';
 
@@ -11,17 +11,14 @@ class AdminRuanganScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final ruanganAsync = ref.watch(adminRuanganProvider);
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Ruangan'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.refresh),
-            onPressed: () => ref.read(adminRuanganProvider.notifier).refresh(),
-          ),
-        ],
-      ),
-      drawer: const AdminDrawer(),
+    return AdminScaffold(
+      title: 'Ruangan',
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.refresh),
+          onPressed: () => ref.read(adminRuanganProvider.notifier).refresh(),
+        ),
+      ],
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () => _showDialog(context, ref, null),
